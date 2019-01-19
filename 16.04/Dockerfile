@@ -2,7 +2,7 @@ FROM       ubuntu:16.04
 MAINTAINER Baba Orhum "https://github.com/Elrondo46"
 
 RUN apt update
-RUN apt dist-upgrade
+RUN apt -y  dist-upgrade
 RUN apt install -y openssh-server ffmpeg
 RUN mkdir /var/run/sshd
 
