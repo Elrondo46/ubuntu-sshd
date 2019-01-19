@@ -1,9 +1,9 @@
 FROM       ubuntu:18.04
-MAINTAINER Aleksandar Diklic "https://github.com/rastasheep"
+MAINTAINER Baba Orhum "https://github.com/Elrondo46"
 
-RUN apt-get update
-
-RUN apt-get install -y openssh-server
+RUN apt update
+RUN apt dist-upgrade
+RUN apt install -y openssh-server ffmpeg
 RUN mkdir /var/run/sshd
 
 RUN echo 'root:root' |chpasswd
@@ -12,9 +12,11 @@ RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_confi
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 RUN mkdir /root/.ssh
-
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN useradd -m -d /home/peerenc peerenc -s /bin/bash
+RUN echo 'peerenc:peerenc' |chpasswd
 
 EXPOSE 22
 
