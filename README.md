@@ -5,6 +5,7 @@ Dockerized FFMpeg service with ssh direct access for remote FFMpeg commands
 ## Image tags
 - ubuntu-sshd:16.04 (xenial)
 - ubuntu-sshd:18.04 (bionic)
+-
 
 ## Installed packages
 
