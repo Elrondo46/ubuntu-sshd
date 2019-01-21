@@ -8,7 +8,7 @@ RUN mkdir /var/run/sshd
 
 RUN echo 'root:root' |chpasswd
 
-RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -ri 's/^#?PermitRootLogin\s+.*/PermitRootLogin no/' /etc/ssh/sshd_config
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 RUN mkdir /root/.ssh
@@ -17,6 +17,7 @@ RUN apt-get clean && \
 
 RUN useradd -m -d /home/peerenc peerenc -s /bin/bash
 RUN echo 'peerenc:peerenc' |chpasswd
+RUN su - peerenc -c "mkdir /home/peerenc/.ssh"
 
 EXPOSE 22
 

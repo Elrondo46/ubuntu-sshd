@@ -1,6 +1,6 @@
-# ubuntu-sshd will change to ubuntu-sshd-ffmpeg
+# ubuntu-sshd-ffmpeg
 
-Dockerized SSH service, built on top of [official Ubuntu](https://registry.hub.docker.com/_/ubuntu/) images.
+Dockerized FFMpeg service with ssh direct access for remote FFMpeg commands
 
 ## Image tags
 - ubuntu-sshd:16.04 (xenial)
@@ -15,14 +15,16 @@ Base:
 
 Image specific:
 - [openssh-server](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring)
+- FFMpeg
 
 Config:
 
-  - `PermitRootLogin yes`
+  - `PermitRootLogin no`
   - `UsePAM no`
   - exposed port 22
   - default command: `/usr/sbin/sshd -D`
   - root password: `root`
+  - peerenc password: peerenc
 
 ## Run example
 
@@ -34,6 +36,11 @@ $ sudo docker port test_sshd 22
 $ ssh root@localhost -p 49154
 # The password is `root`
 root@test_sshd $
+
+USER PREIMPLEMENT
+$ ssh peerenc@localhost -p 49154
+# The password is `peerenc`
+peerenc@test_sshd $
 ```
 
 ## Security
@@ -41,15 +48,9 @@ root@test_sshd $
 If you are making the container accessible from the internet you'll probably want to secure it bit.
 You can do one of the following two things after launching the container:
 
-- Change the root password: `docker exec -ti test_sshd passwd`
-- Don't allow passwords at all, use keys instead:
+- Change the password of peerenc user or create another user and set a complex password
 
 ```bash
 $ docker exec test_sshd passwd -d root
-$ docker cp file_on_host_with_allowed_public_keys test_sshd:/root/.ssh/authorized_keys
-$ docker exec test_sshd chown root:root /root/.ssh/authorized_keys
+$ docker exec test_sshd passwd -d peerenc
 ```
-
-## Issues
-
-If you run into any problems with this image, please check (and potentially file new) issues on the [rastasheep/ubuntu-sshd](https://github.com/rastasheep/ubuntu-sshd/issues) repo, which is the source for this image.
